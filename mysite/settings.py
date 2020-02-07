@@ -127,5 +127,5 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 
-LOGIN_REDIRECT_URL = 'index.html'
-LOGOUT_REDIRECT_URL = 'index.html'
+LOGIN_REDIRECT_URL = 'shop:product_list'
+LOGOUT_REDIRECT_URL = 'shop:product_list'

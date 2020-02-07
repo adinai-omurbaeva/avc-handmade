@@ -7,10 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    {%for product in products%}
-        <h2><a href="{% url 'shop:product_detail' product.pk%}">{{ product.name}}</a></h2>
-        <p>{{product.price}}</p>
+    
+    {%for purchase in carts%}
+        <h2>{{ purchase.product }}  {{purchase.count}} шт.</h2>
+        {{purchase.cost}} сом
     {%endfor%}
-    {% include 'pagination.html' with page=products %}
+    <h3>Итого: {{total}} сом</p>
 </body>
 </html>
