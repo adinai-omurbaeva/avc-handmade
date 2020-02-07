@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {%for product in products%}
+        <h2><a href="#">{{ product.title }}</a></h2>
+        <p>{{ product.name }}</p>
+        {{ product.description|truncatewords:30|linebreaks }}
+        <p>{{product.price}}</p>
+    {%endfor%}
+    {% include 'pagination.html' with page=products %}
+</body>
+</html>
