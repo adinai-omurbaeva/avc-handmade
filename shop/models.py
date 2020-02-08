@@ -16,7 +16,7 @@ class Product(models.Model):
         ('done', 'Выполнен'),
     )
     TYPE_CHOISES = (
-        ('figure', "Фигурка"),
+        ('badge', "Значок"),
         ('earring', "Серьги"),
         ('necklace', "Кулон"),
     )
