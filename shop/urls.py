@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = 'shop'
 
 urlpatterns = [
@@ -12,4 +13,11 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('done/', views.done_purchases, name='done_purchases'),
     path('<str:product_type>', views.product_list, name='product_type'),
+    # path('upload/', views.upload, name='upload'),
+    path('custom_create/', views.custom_create, name='custom_create'),
+    path('like/<int:pk><str:like_type>', views.like, name='like')
+    
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_roor = settings.MEDIA_ROOT)

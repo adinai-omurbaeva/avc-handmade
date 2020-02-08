@@ -41,8 +41,9 @@ http://www.templatemo.com/tm-501-neaty
                                 <li class="tm-nav-item">
                                     <a href="{% url 'shop:cart_list' %}" class="tm-nav-item-link">Корзина</a>
                                 </li>
-                                
-                                <br><br>
+                                <li class="tm-nav-item">
+                                    <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link">Create</a>
+                                </li>
                                 {% if user.is_authenticated %}
                                 <li class="tm-nav-item">
                                     <a href="">Привет, {{user.username}}</a></li>

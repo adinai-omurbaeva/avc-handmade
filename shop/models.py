@@ -5,10 +5,6 @@ from mysite import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class PublishedManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(status='awaiting')
-
 class Product(models.Model):
     TYPE_CHOISES = (
         ('badge', "Значок"),
@@ -22,7 +18,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_images', blank=True)
     # status = models.CharField(max_length=10, choices=STATUS_CHOISES, null=True, blank=True)
     # clients = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
-    rate = models.PositiveIntegerField(null=True, blank=True)
+    # rate = models.PositiveIntegerField(null=True, blank=True)
     # cart = PublishedManager()
     objects = models.Manager()
 
@@ -49,6 +45,25 @@ class Purchase(models.Model):
     @property
     def cost(self):
         return self.product.price * self.count
+
+
+class CustomPurchase(models.Model):
+    image1 = models.ImageField(upload_to='product_images')
+    image2 = models.ImageField(upload_to='product_images', blank=True)
+    image3 = models.ImageField(upload_to='product_images', blank=True)
+    description = models.TextField()
+    size = models.PositiveIntegerField()
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='CASCADE')
+
+class Like(models.Model):
+    LIKE_CHOISES = (
+        ("like", 'Like'),
+        ('dislike', 'Dislike'),
+    )
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='CASCADE')
+    product = models.ForeignKey(Product, related_name='+', on_delete='CASCADE')
+    like = models.CharField(max_length=2, choices=LIKE_CHOISES, null=True)
+
 
 class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')

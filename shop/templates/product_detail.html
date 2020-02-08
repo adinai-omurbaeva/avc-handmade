@@ -4,6 +4,8 @@
 <h1>{{ product.name }}</h1>
     {{product.description}}
     {{product.price}}
+    <p>Like{{like.count}}</p>
+    <p>Dislike{{dislike.count}}</p>
 </section>   
 <section class="tm-section">
     <button class="button-green"><a href="{% url 'shop:add_to_cart' product.pk%}">Добавить в корзину</a></button>

@@ -33,18 +33,20 @@ body {
 
 a, button { 
 	transition: all 0.3s ease; 
-	color : #fff;
+	color : #000;
 }
 h2{
-	color:#fff;
+	color:#000;
 }
 
 .filter{
 	padding-right: 20px;
-	justify-content: space-between;
+	justify-content: space-around;
     text-transform: uppercase;
 	font-size: 29px;
 	display: flex;
+	position: relative;
+    bottom: 32px;
 }
 a:hover,
 a:focus {

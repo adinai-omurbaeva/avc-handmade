@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.datetime_safe import datetime
-from .models import Product, Purchase, Comment
+from .models import Product, Purchase, Comment, CustomPurchase, Like
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -20,5 +20,8 @@ class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('customer', 'product','count', 'status')
     list_filter = ('customer', 'status')
     ordering = ('-status', 'customer')
+
+admin.site.register(CustomPurchase)
+admin.site.register(Like)
 
 
