@@ -27,8 +27,8 @@ http://www.templatemo.com/tm-501-neaty
                     <!-- Left column: logo and menu -->
                     <div class="tm-blue-bg tm-left-column">                        
                         <div class="tm-logo-div text-xs-center">
-                            <img src="{% static 'images/tm-neaty-logo.png'%}" height="100" alt="Logo">
-                            <h1 class="tm-site-name">aVc</h1>
+                            <a href='{% url "shop:product_list" %}'><img src="{% static 'images/tm-neaty-logo.png'%}" height="100" alt="Logo">
+                            <h1 class="tm-site-name">aVc</h1></a>
                         </div>
                         <nav class="tm-main-nav">
                             <ul class="tm-main-nav-ul">
@@ -45,7 +45,7 @@ http://www.templatemo.com/tm-501-neaty
                                 <br><br>
                                 {% if user.is_authenticated %}
                                 <li class="tm-nav-item">
-                                    Привет, {{user.username}}</li>
+                                    <a href="">Привет, {{user.username}}</a></li>
                                 <li class="tm-nav-item">   
                                     <a href ="{% url 'logout' %}">Выйти</a>
                                 </li>

@@ -3,6 +3,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser
+from django.shortcuts import render, get_object_or_404, redirect
 
 class SignUpView(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -12,12 +13,20 @@ class SignUpView(generic.CreateView):
 @login_required
 def edit_user(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
+    password = user.password
     if request.method=='POST':
         form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             user=form.save(commit=False)
+            user.password = password
             user.save()
             return redirect('shop:product_list')
     else:
-        form = PostForm(instance=post)
-    return render(request, 'post_edit.html', {'form':form})
+        form = CustomUserChangeForm(instance=user)
+    return render(request, 'edit_user.html', {'form':form})
+
+
+@login_required
+def account_info(request, pk):
+    user = get_object_or_404(CustomUser, pk=pk)
+    return render(request, 'account_info.html', {'user': user})

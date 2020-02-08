@@ -43,6 +43,7 @@ class Purchase(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOISES, default='awaiting')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='basket', on_delete='CASCADE')
     product = models.ForeignKey(Product, related_name='+', on_delete='CASCADE')
+    date = models.DateTimeField(auto_now_add=True)
     count = models.PositiveSmallIntegerField()
 
     @property

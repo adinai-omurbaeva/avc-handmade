@@ -16,6 +16,7 @@
 .secondgallery-list{
 	display: flex;
 	flex-wrap: wrap;
+	
 	/* justify-content: space-between; */
 }
 
@@ -32,13 +33,18 @@ body {
 
 a, button { 
 	transition: all 0.3s ease; 
-	color : #990033;
+	color : #fff;
 }
 h2{
-	color:#990033;
+	color:#fff;
 }
+
 .filter{
 	padding-right: 20px;
+	justify-content: space-between;
+    text-transform: uppercase;
+	font-size: 29px;
+	display: flex;
 }
 a:hover,
 a:focus {
