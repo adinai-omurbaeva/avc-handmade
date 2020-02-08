@@ -4,10 +4,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, CartCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 
-def product_list(request):
-    object_list = Product.objects.all().order_by('-price')
-    paginator = Paginator(object_list, 5)
+def product_list(request, product_type=None):
+    if product_type==None:
+        object_list = Product.objects.all().order_by('-price')
+    else:
+        object_list = Product.objects.filter(product_type=product_type).order_by('-price')
+    paginator = Paginator(object_list, 6)
     page = request.GET.get('page')
     try:
         products = paginator.page(page)
@@ -18,6 +22,7 @@ def product_list(request):
     
     return render(request, 'list.html', {'page': page, 
                                         'products': products})
+
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -39,13 +44,14 @@ def product_detail(request, pk):
                                            'comment_form': comment_form})
 @login_required
 def cart_list(request):
-    carts = Purchase.objects.filter(customer=request.user)
+    carts = Purchase.objects.filter(Q(customer=request.user, status='awaiting')|Q(customer=request.user, status='confirmed'))
     total = 0
+    is_empty = bool(carts)
     for i in carts:
         total += i.cost
-    # price = Purchase.cost.filter(customer = request.user)
     return render(request, 'cart.html', {'carts': carts,
-                                        'total':total})
+                                        'total':total,
+                                        'is_empty':is_empty})
 
 def about(request):
     return render(request, 'index.html')
@@ -69,6 +75,13 @@ def add_to_cart(request, pk):
 
 def delete_from_cart(request, pk):
     purchase = Purchase.objects.get(pk=pk)
-    purchase.delete()
-    return redirect('shop:cart_list')
+    if purchase.status=='awaiting':
+        purchase.delete()
+        return redirect('shop:cart_list')
+    return render(request, 'error_page.html')
+
+@login_required
+def done_purchases(request):
+    done = Purchase.objects.filter(customer=request.user, status='done')
+    return render(request, 'done_purchases.html', {'done': done})
 

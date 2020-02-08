@@ -1,6 +1,14 @@
 {%extends 'base.html'%}
-
 {%block section%}
+<section id="secondgallery" class="tm-section">
+    <div class="secondgallery-list tm-gallery-container tm-gallery-1">
+        <h2 class='filter'><a href='{% url "shop:product_list" %}'>Все</a></h2>
+        <h2 class='filter'> <a href='{% url "shop:product_type" "earring" %}'>Серьги</a></h2>
+        <h2 class='filter'><a href='{% url "shop:product_type" "necklace" %}'>Кулоны</a></h2>
+        <h2 class='filter'><a href='{% url "shop:product_type" "badge" %}'>Значки</a></h2>
+    </div>
+    
+</section>
     <section id="secondgallery" class="tm-section">
         <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30"></h2></header>
         <div class="secondgallery-list tm-gallery-container tm-gallery-1">

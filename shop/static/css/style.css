@@ -32,14 +32,19 @@ body {
 
 a, button { 
 	transition: all 0.3s ease; 
+	color : #990033;
 }
 h2{
-	color:#660033;
+	color:#990033;
+}
+.filter{
+	padding-right: 20px;
 }
 a:hover,
 a:focus {
 	text-decoration: none;
 	outline: none;
+	color: #ff6699;
 }
 
 .button-green{
@@ -110,6 +115,9 @@ p { line-height: 2; }
 	color: white;
 }
 
+.history{
+	float: right;
+}
 .tm-nav-item:hover a,
 .tm-nav-item:active a,
 .tm-nav-item:focus a,
