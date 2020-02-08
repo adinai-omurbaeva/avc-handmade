@@ -10,11 +10,6 @@ class PublishedManager(models.Manager):
         return super().get_queryset().filter(status='awaiting')
 
 class Product(models.Model):
-    STATUS_CHOISES = (
-        ("awaiting", 'Ожидает действий'),
-        ('confirmed', 'Подтвержден'),
-        ('done', 'Выполнен'),
-    )
     TYPE_CHOISES = (
         ('badge', "Значок"),
         ('earring', "Серьги"),
@@ -40,6 +35,12 @@ class Product(models.Model):
 
 
 class Purchase(models.Model):
+    STATUS_CHOISES = (
+        ("awaiting", 'В обработке'),
+        ('confirmed', 'Подтвержден'),
+        ('done', 'Готов'),
+    )
+    status = models.CharField(max_length=10, choices=STATUS_CHOISES, default='awaiting')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='basket', on_delete='CASCADE')
     product = models.ForeignKey(Product, related_name='+', on_delete='CASCADE')
     count = models.PositiveSmallIntegerField()

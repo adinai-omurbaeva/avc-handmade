@@ -9,6 +9,19 @@
         <div class="list-item tm-img-container-1" >
             <h2><a href="{% url 'shop:product_detail' product.pk%}">{{ product.name}}</a></h2>
             <img src='../media/{{product.image}}' class="list-item-img img-fluid tm-img-tn" width="250" height="200"></a>
+            <div2 class="rate">
+                <input type="radio" id="list-item-num_{{ product.pk }}-star5" name="rate" value={{ product.rating }} />
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="list-item-num_{{ product.pk }}-star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="list-item-num_{{ product.pk }}-star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="list-item-num_{{ product.pk }}-star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="list-item-num_{{ product.pk }}-star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+            </div2>
+            <!-- <p>{{product.price}}</p> -->
         </div>
        
     {%endfor%}

@@ -33,6 +33,9 @@ body {
 a, button { 
 	transition: all 0.3s ease; 
 }
+h2{
+	color:#660033;
+}
 a:hover,
 a:focus {
 	text-decoration: none;
@@ -103,7 +106,7 @@ p { line-height: 2; }
 .tm-button:hover,
 .tm-button:active,
 .tm-button:focus {
-	background-color: #2790c6;
+	background-color: #009933;
 	color: white;
 }
 

@@ -9,12 +9,16 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'body')
 
 @admin.register(Product)
-class CommentAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'product_type', 'price')
     list_filter = ('name', 'product_type', 'price')
     search_fields = ('name', 'product_type', 'price')
     ordering = ('product_type', 'name', 'price')
 
-admin.site.register(Purchase)
+@admin.register(Purchase)
+class PurchaseAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'product','count', 'status')
+    list_filter = ('customer', 'status')
+    ordering = ('-status', 'customer')
 
 

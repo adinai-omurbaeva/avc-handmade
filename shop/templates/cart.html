@@ -1,9 +1,18 @@
 {%extends 'base.html'%}
 {%block content%}
+
     {%for purchase in carts%}
+    
+    
         <h2>{{ purchase.product }}  {{purchase.count}} шт.</h2>
-        {{purchase.cost}} сом
+
+        <img src='../media/{{purchase.product.image}}' class="list-item-img" width="250" height="200"></a>
+    
+        <p>{{purchase.cost}} сом</p>
+        <p>Статус заказа: {{ purchase.get_status_display }}</p>
         <p><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p>
+        <br><br>
     {%endfor%}
+
         <h3>Итого: {{total}} сом</p>
 {%endblock%}

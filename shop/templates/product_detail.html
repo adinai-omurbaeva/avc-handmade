@@ -8,6 +8,7 @@
 <section class="tm-section">
     <button class="button-green"><a href="{% url 'shop:add_to_cart' product.pk%}">Добавить в корзину</a></button>
 </section>
+
     <section class="tm-section">
     {% with comments.count as total_comments %}
         <h2>{{ total_comments }} comment {{ total_comments|pluralize }}</h2>
