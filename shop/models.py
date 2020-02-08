@@ -24,6 +24,7 @@ class Product(models.Model):
     product_type = models.CharField(max_length=10, choices=TYPE_CHOISES)
     description = models.TextField(null=True, blank=True)
     price = models.PositiveIntegerField()
+    image = models.ImageField(upload_to='product_images', blank=True)
     # status = models.CharField(max_length=10, choices=STATUS_CHOISES, null=True, blank=True)
     # clients = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
     rate = models.PositiveIntegerField(null=True, blank=True)

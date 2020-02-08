@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{%extends 'base.html'%}
+{%block section%}
+    <section>
+        <div class="tm-gallery-container tm-gallery-1">
     {%for product in products%}
+        
+        <div class="tm-img-container tm-img-container-1">
         <h2><a href="{% url 'shop:product_detail' product.pk%}">{{ product.name}}</a></h2>
-        <p>{{product.price}}</p>
-    {%endfor%}
+        <img src='../media/{{product.image}}' class="img-fluid tm-img-tn">
+        </div>
+       
+        {%endfor%}
+    </div>
+    </section>
+    <section>
     {% include 'pagination.html' with page=products %}
-</body>
-</html>
+    </section>
+{%endblock%}
