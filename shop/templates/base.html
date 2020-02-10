@@ -17,8 +17,8 @@ http://www.templatemo.com/tm-501-neaty
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">                                
     <link rel="stylesheet" href="{% static 'css/style.css' %}">                                    
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}"/>
-    <link rel="stylesheet" href="../static/css/rating.css">
-
+    <!-- <link rel="stylesheet" href="../static/css/rating.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body> 
     <div class="container">
@@ -41,20 +41,22 @@ http://www.templatemo.com/tm-501-neaty
                                 <li class="tm-nav-item">
                                     <a href="{% url 'shop:cart_list' %}" class="tm-nav-item-link">Корзина</a>
                                 </li>
-                                <li class="tm-nav-item">
+                                <!-- <li class="tm-nav-item">
                                     <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link">Create</a>
-                                </li>
+                                </li> -->
+                                <br>
                                 {% if user.is_authenticated %}
                                 <li class="tm-nav-item">
-                                    <a href="">Привет, {{user.username}}</a></li>
+                                    <a href="{{user.get_absolute_profile_url}}">Привет, {{user.username}}</a></li>
                                 <li class="tm-nav-item">   
                                     <a href ="{% url 'logout' %}">Выйти</a>
                                 </li>
+                                
                                 {% else %}
                                 <li class="tm-nav-item">
                                     <a href="{% url 'login' %}">Войти</a></li>
                                 <li class="tm-nav-item">
-                                    <a href= "{% url 'signup' %}">Регистрация</a>
+                                    <a href= "{% url 'accounts:signup' %}">Регистрация</a>
                                 </li>
                                 {% endif %}
                             </ul>

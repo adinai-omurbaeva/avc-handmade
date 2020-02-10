@@ -1,13 +1,24 @@
 {%extends 'base.html'%}
 {%block content%}
-<h2 class='history' ><a href="{% url 'shop:done_purchases' %}">История заказов</a></h2>
+<h2 class='history' >
+    <!-- <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link">Создать свой</a>                        -->
+    <a href="{% url 'shop:done_purchases' %}">История заказов</a>
+</h2>
 <br><br><br><br>
     {%for purchase in carts%}
         <h2><a href="{% url 'shop:product_detail' purchase.product.pk%}">{{ purchase.product }} </a> {{purchase.count}} шт.</h2>
-        <img src='../media/{{purchase.product.image}}' class="list-item-img" width="250" height="200"></a>
+        <img src='../../{{purchase.product.image}}' class="list-item-img" width="250" height="200"></a>
         <p>{{purchase.cost}} сом</p>
         <p>Статус заказа: {{ purchase.get_status_display }}</p>
         <p><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p>
+        <br><br>
+    {%endfor%}
+
+    {%for purchase in custom%}
+        <img src='../../{{purchase.image1}}' class="list-item-img" width="250" height="200"></a>
+        <p>{{purchase.description}}</p>
+        <p>Статус заказа: {{ purchase.size}}</p>
+        <!-- <p><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p> -->
         <br><br>
     {%endfor%}
     {% if is_empty %}

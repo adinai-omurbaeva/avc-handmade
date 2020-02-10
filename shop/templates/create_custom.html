@@ -1,9 +1,12 @@
 {%extends 'base.html'%}
+{% load crispy_forms_tags %}
 {%block content%}
-  <h2>Custom Create</h2>
-    <form method="post">
+  <h2>Создать свой заказ</h2>
+    <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create</button>
+        {{ form.image1 }}
+        {{ form.size }}
+        {{ form.description }}
+        <button type="submit">Создать</button>
     </form>
 {%endblock%}

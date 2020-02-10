@@ -15,7 +15,7 @@ class Product(models.Model):
     product_type = models.CharField(max_length=10, choices=TYPE_CHOISES)
     description = models.TextField(null=True, blank=True)
     price = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='product_images', blank=True)
+    image = models.ImageField(upload_to='static/images', blank=True)
     # status = models.CharField(max_length=10, choices=STATUS_CHOISES, null=True, blank=True)
     # clients = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
     # rate = models.PositiveIntegerField(null=True, blank=True)
@@ -40,7 +40,7 @@ class Purchase(models.Model):
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='basket', on_delete='CASCADE')
     product = models.ForeignKey(Product, related_name='+', on_delete='CASCADE')
     date = models.DateTimeField(auto_now_add=True)
-    count = models.PositiveSmallIntegerField()
+    count = models.PositiveSmallIntegerField(verbose_name='Количество')
 
     @property
     def cost(self):
@@ -48,11 +48,17 @@ class Purchase(models.Model):
 
 
 class CustomPurchase(models.Model):
-    image1 = models.ImageField(upload_to='product_images')
-    image2 = models.ImageField(upload_to='product_images', blank=True)
-    image3 = models.ImageField(upload_to='product_images', blank=True)
-    description = models.TextField()
-    size = models.PositiveIntegerField()
+    STATUS_CHOISES = (
+        ("awaiting", 'В обработке'),
+        ('confirmed', 'Подтвержден'),
+        ('done', 'Готов'),
+    )
+    status = models.CharField(max_length=10, choices=STATUS_CHOISES, default='awaiting', blank=True, null=True)
+    image1 = models.ImageField(upload_to='static/images', verbose_name='Изображение 1')
+    image2 = models.ImageField(upload_to='static/images', blank=True, null=True, verbose_name='Изображение 2')
+    image3 = models.ImageField(upload_to='static/images', blank=True, null=True, verbose_name='Изображение 3')
+    description = models.TextField(verbose_name='Описание')
+    size = models.PositiveIntegerField(verbose_name='Размер')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='CASCADE')
 
 class Like(models.Model):
@@ -69,7 +75,7 @@ class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
     name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     email = models.EmailField()
-    body = models.TextField()
+    body = models.TextField(verbose_name='Текст')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)

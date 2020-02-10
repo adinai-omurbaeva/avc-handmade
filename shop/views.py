@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Purchase, Comment, Like
+from .models import Product, Purchase, Comment, Like, CustomPurchase
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, CartCreationForm, CustomPurchaseForm
 from django.contrib.auth.decorators import login_required
@@ -53,12 +53,14 @@ def product_detail(request, pk):
 def cart_list(request):
     carts = Purchase.objects.filter(Q(customer=request.user, status='awaiting')|Q(customer=request.user, status='confirmed'))
     total = 0
+    custom = CustomPurchase.objects.filter(customer=request.user)
     is_empty = bool(carts)
     for i in carts:
         total += i.cost
     return render(request, 'cart.html', {'carts': carts,
                                         'total':total,
-                                        'is_empty':is_empty})
+                                        'is_empty':is_empty,
+                                        'custom':custom})
 
 def about(request):
     return render(request, 'index.html')
@@ -74,8 +76,9 @@ def upload(request):
 @login_required
 def custom_create(request):
     if request.method == 'POST':
-        form = CustomPurchaseForm(data=request.POST, files=request.FILES)
+        form = CustomPurchaseForm(data=request.POST)
         if form.is_valid():
+            print("ldhkjdhjhsbdljhb,djfhb")
             cd = form.cleaned_data
             new_cart = form.save(commit=False)
             new_cart.customer = request.user
@@ -83,8 +86,8 @@ def custom_create(request):
             messages.success(request, 'It has successfully added')
             return redirect('shop:product_list')
     else:
-        form = CustomPurchaseForm(data=request.GET, files=request.FILES)
-        return render(request, 'create_custom.html', {'form':form})
+        form = CustomPurchaseForm(data=request.GET)
+    return render(request, 'create_custom.html', {'form':form})
 
 @login_required
 def add_to_cart(request, pk):
@@ -101,7 +104,7 @@ def add_to_cart(request, pk):
             return redirect('shop:product_list')
     else:
         form = CartCreationForm(data=request.GET)
-        return render(request, 'add_to_cart.html', {'form':form})
+    return render(request, 'add_to_cart.html', {'form':form})
 
 def delete_from_cart(request, pk):
     purchase = Purchase.objects.get(pk=pk)
@@ -133,5 +136,5 @@ def like(request, pk, like_type):
         new_like.product = product
         new_like.like=like_type
         new_like.save()
-    return redirect('shop:product_list')
+    return redirect('shop:product_detail',pk)
 

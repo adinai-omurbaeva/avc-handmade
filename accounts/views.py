@@ -20,10 +20,11 @@ def edit_user(request, pk):
             user=form.save(commit=False)
             user.password = password
             user.save()
-            return redirect('shop:product_list')
+            return redirect('accounts:edit_user', pk)
     else:
         form = CustomUserChangeForm(instance=user)
-    return render(request, 'edit_user.html', {'form':form})
+    return render(request, 'edit_user.html', {'form':form,
+                                            'user':user})
 
 
 @login_required

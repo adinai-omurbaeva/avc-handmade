@@ -14,4 +14,4 @@ class CartCreationForm(forms.ModelForm):
 class CustomPurchaseForm(forms.ModelForm):
     class Meta:
         model = CustomPurchase
-        fields = ('image1', 'image2', 'image3', 'description', 'size')
+        fields = ('image1', 'image2', 'image3', 'size', 'description')

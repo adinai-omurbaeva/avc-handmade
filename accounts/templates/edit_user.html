@@ -1,9 +1,15 @@
 {%extends 'base.html'%}
+{% load crispy_forms_tags %}
 {%block content%}
-    <h2>Edit</h2>    
+    <h2>Обновить профиль</h2>    
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+         {% csrf_token %}
+        <p>{{ form.username|as_crispy_field }}</p>
+        <p>Адрес: {{user.address}}</p>
+        <p>{{form.address}}</p>
+        <p>Номер телефона: {{user.phone}}</p>
+        <p>{{form.phone }}</p>
+
         <button type="submit">Обновить данные</button>
     </form>
 {%endblock%}

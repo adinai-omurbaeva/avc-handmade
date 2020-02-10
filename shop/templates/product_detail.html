@@ -1,19 +1,21 @@
 {%extends 'base.html'%}
 {%block section%}
-<section class="tm-section">
+
 <h1>{{ product.name }}</h1>
-    {{product.description}}
-    {{product.price}}
-    <p>Like{{like.count}}</p>
-    <p>Dislike{{dislike.count}}</p>
-</section>   
+<img src='../../{{product.image}}' width="200" height="140"></a>
+    <p>{{product.description}}</p>
+    <p>{{product.price}} сом</p> 
+    
+    <a href="{%url 'shop:like' product.pk 'like' %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{like.count}}</p>
+    <a href="{%url 'shop:like' product.pk 'dislike' %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> {{dislike.count}}</p>
+  
 <section class="tm-section">
-    <button class="button-green"><a href="{% url 'shop:add_to_cart' product.pk%}">Добавить в корзину</a></button>
+    <button><a href="{% url 'shop:add_to_cart' product.pk%}">Добавить в корзину</a></button>
 </section>
 
     <section class="tm-section">
     {% with comments.count as total_comments %}
-        <h2>{{ total_comments }} comment {{ total_comments|pluralize }}</h2>
+        <h2>{{ total_comments }} комментариев </h2>
     {% endwith %}
     {% for comment in comments %}
         <div class='comment'>
@@ -24,14 +26,14 @@
         {{ comment.body|linebreaks }}
         </div>
     {% empty %}
-        <p>There are no comments</p>
+        <p>Нет комментариев</p>
     {% endfor %}
     
-        <h2>Add new comment</h2>
+        <h2>Добавить новый комментарий</h2>
         <form method='post'>
             {{ comment_form.as_p }}
             {% csrf_token %}
-            <p><input type='submit' value='Add comment'></p>
+            <p><input type='submit' value='Добавить'></p>
         </form>
     </section>
 {%endblock%}
