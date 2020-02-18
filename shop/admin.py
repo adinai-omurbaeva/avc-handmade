@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.utils.datetime_safe import datetime
-from .models import Product, Purchase, Comment, CustomPurchase, Like
+from .models import Product, Purchase, Comment, CustomPurchase
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'product', 'created', 'active')
+    list_display = ('name', 'email', 'product', 'body', 'active')
     list_filter = ('active', 'created', 'updated')
     search_fields = ('name', 'email', 'body')
 
@@ -25,9 +25,9 @@ admin.site.register(CustomPurchase)
 # admin.site.register(Like)
 
 
-@admin.register(Like)
-class PurchaseAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'product','like')
-    list_filter = ('customer', 'product')
-    ordering = ('customer',)
+# @admin.register(Like)
+# class PurchaseAdmin(admin.ModelAdmin):
+#     list_display = ('customer', 'product','like')
+#     list_filter = ('customer', 'product')
+#     ordering = ('customer',)
 

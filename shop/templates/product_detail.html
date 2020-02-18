@@ -6,8 +6,8 @@
     <p>{{product.description}}</p>
     <p>{{product.price}} сом</p> 
     
-    <a href="{%url 'shop:like' product.pk 'like' %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{like.count}}</p>
-    <a href="{%url 'shop:like' product.pk 'dislike' %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> {{dislike.count}}</p>
+    <a href="{%url 'shop:like' product.pk %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{product.likes_number}}</p>
+    <!-- <a href="{%url 'shop:like' product.pk  %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> </p> -->
   
 <section class="tm-section">
     <button><a href="{% url 'shop:add_to_cart' product.pk%}">Добавить в корзину</a></button>

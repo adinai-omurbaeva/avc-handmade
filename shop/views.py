@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Purchase, Comment, Like, CustomPurchase
+from .models import Product, Purchase, Comment, CustomPurchase
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, CartCreationForm, CustomPurchaseForm
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import TemplateView
 from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponseRedirect
 
 def product_list(request, product_type=None):
     if product_type==None:
@@ -28,11 +29,13 @@ def product_list(request, product_type=None):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    
+    is_liked = False
+    if product.likes.filter(id=request.user.id).exists():
+        is_liked = True
+
     comments = product.comments.filter(active=True)
     new_comment = None
-    like = Like.objects.filter(like='like', product=product)
-    dislike = Like.objects.filter(like='dislike',product=product)
-
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -46,12 +49,16 @@ def product_detail(request, pk):
     return render(request, 'product_detail.html', {'product': product,
                                            'comments': comments,
                                            'new_comment': new_comment,
-                                           'comment_form': comment_form,
-                                           'like':like,
-                                           'dislike':dislike})
+                                           'comment_form': comment_form
+                                           })
+@login_required
+def custom_purchase_detail(request, pk):
+    custom_purchase = get_object_or_404(CustomPurchase, pk=pk)
+    return render(request, 'custom_purchase_detail.html', {'custom_purchase': custom_purchase})
+
 @login_required
 def cart_list(request):
-    carts = Purchase.objects.filter(Q(customer=request.user, status='awaiting')|Q(customer=request.user, status='confirmed'))
+    carts = Purchase.objects.filter(Q(customer=request.user, status='awaiting')|Q(customer=request.user, status='confirmed')).order_by('status')
     total = 0
     custom = CustomPurchase.objects.filter(customer=request.user)
     is_empty = bool(carts)
@@ -76,11 +83,13 @@ def upload(request):
 @login_required
 def custom_create(request):
     if request.method == 'POST':
-        form = CustomPurchaseForm(data=request.POST)
+        form = CustomPurchaseForm(request.POST or None, request.FILES or None)
         if form.is_valid():
-            print("ldhkjdhjhsbdljhb,djfhb")
-            cd = form.cleaned_data
+            # print("ldhkjdhjhsbdljhb,djfhb")
+            # cd = form.cleaned_data
+            # print(cd)
             new_cart = form.save(commit=False)
+            print(new_cart)
             new_cart.customer = request.user
             new_cart.save()
             messages.success(request, 'It has successfully added')
@@ -119,22 +128,24 @@ def done_purchases(request):
     return render(request, 'done_purchases.html', {'done': done})
 
 @login_required
-def like(request, pk, like_type):
+def like(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    old_like=Like.objects.filter(product=product, customer=request.user)
-    if bool(old_like):
-        if like_type!=old_like[0].like:
-            old_like.delete()
-            new_like=Like()
-            new_like.customer=request.user
-            new_like.product = product
-            new_like.like=like_type
-            new_like.save()
+    is_liked = False
+    if product.likes.filter(id=request.user.id).exists():
+        product.likes.remove(request.user)
+        product.likes_number-=1
+        product.save()
+        is_liked = False
     else:
-        new_like=Like()
-        new_like.customer=request.user
-        new_like.product = product
-        new_like.like=like_type
-        new_like.save()
-    return redirect('shop:product_detail',pk)
+        product.likes.add(request.user)
+        product.likes_number+=1
+        product.save()
+        is_liked = True
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+@login_required
+def accept(request, pk):
+    purchase = get_object_or_404(Purchase, pk=pk)
+    purchase.status='confirmed'
+    purchase.save()
+    return redirect('shop:cart_list')

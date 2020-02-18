@@ -1,7 +1,7 @@
 {%extends 'base.html'%}
 {%block content%}
 <h2 class='history' >
-    <!-- <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link">Создать свой</a>                        -->
+    <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link">Создать свой</a>  |                         
     <a href="{% url 'shop:done_purchases' %}">История заказов</a>
 </h2>
 <br><br><br><br>
@@ -10,14 +10,14 @@
         <img src='../../{{purchase.product.image}}' class="list-item-img" width="250" height="200"></a>
         <p>{{purchase.cost}} сом</p>
         <p>Статус заказа: {{ purchase.get_status_display }}</p>
-        <p><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p>
+        <p><a href="{% url 'shop:accept' purchase.pk%}">Подтвердить</a><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p>
         <br><br>
     {%endfor%}
-
+    <h2>Специальные заказы</h2>
     {%for purchase in custom%}
-        <img src='../../{{purchase.image1}}' class="list-item-img" width="250" height="200"></a>
+        <a href="{% url 'shop:custom_detail' purchase.pk%}"><img src='../../media/{{purchase.image1}}' class="list-item-img" width="250" height="200"></a>
         <p>{{purchase.description}}</p>
-        <p>Статус заказа: {{ purchase.size}}</p>
+        <p>Размер: {{ purchase.size}} см</p>
         <!-- <p><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p> -->
         <br><br>
     {%endfor%}

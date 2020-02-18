@@ -17,9 +17,8 @@
         <div class="list-item tm-img-container-1" >
             <a href="{% url 'shop:product_detail' product.pk%}">
             <img src='../../{{product.image}}' class="list-item-img img-fluid tm-img-tn" width="250" height="200"></a>
-            <!-- <a href="{%url 'shop:like' product.pk 'like' %}"><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a>
-            <a href="{%url 'shop:like' product.pk 'dislike' %}"><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> -->
-            
+            <p> <a href="{%url 'shop:like' product.pk %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{product.likes_number}}
+          
         </div>
        
     {%endfor%}

@@ -16,6 +16,9 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
     price = models.PositiveIntegerField()
     image = models.ImageField(upload_to='static/images', blank=True)
+    # likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True)
+    likes_number = models.IntegerField(default=0)
     # status = models.CharField(max_length=10, choices=STATUS_CHOISES, null=True, blank=True)
     # clients = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
     # rate = models.PositiveIntegerField(null=True, blank=True)
@@ -54,21 +57,21 @@ class CustomPurchase(models.Model):
         ('done', 'Готов'),
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOISES, default='awaiting', blank=True, null=True)
-    image1 = models.ImageField(upload_to='static/images', verbose_name='Изображение 1')
+    image1 = models.ImageField(upload_to='static/images', verbose_name='Изображение 1', blank=True, null=True,)
     image2 = models.ImageField(upload_to='static/images', blank=True, null=True, verbose_name='Изображение 2')
     image3 = models.ImageField(upload_to='static/images', blank=True, null=True, verbose_name='Изображение 3')
     description = models.TextField(verbose_name='Описание')
     size = models.PositiveIntegerField(verbose_name='Размер')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='CASCADE')
 
-class Like(models.Model):
-    LIKE_CHOISES = (
-        ("like", 'Like'),
-        ('dislike', 'Dislike'),
-    )
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='CASCADE')
-    product = models.ForeignKey(Product, related_name='+', on_delete='CASCADE')
-    like = models.CharField(max_length=2, choices=LIKE_CHOISES, null=True)
+# class Like(models.Model):
+#     LIKE_CHOISES = (
+#         ("like", 'Like'),
+#         ('dislike', 'Dislike'),
+#     )
+#     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='CASCADE')
+#     product = models.ForeignKey(Product, related_name='+', on_delete='CASCADE')
+#     like = models.CharField(max_length=2, choices=LIKE_CHOISES, null=True)
 
 
 class Comment(models.Model):

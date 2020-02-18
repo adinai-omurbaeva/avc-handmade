@@ -2,11 +2,18 @@
 {% load crispy_forms_tags %}
 {%block content%}
   <h2>Создать свой заказ</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
+ 
+        {{form.description|as_crispy_field }}   
+        Размер* {{ form.size}} см
+        <p><b>Обязательное поле</b></p>
+        <br>
+        <p>Загрузите фото при желании (до 3)</p>
         {% csrf_token %}
-        {{ form.image1 }}
-        {{ form.size }}
-        {{ form.description }}
+        {{ form.image1|as_crispy_field  }}
+        {{ form.image2|as_crispy_field  }}
+        {{ form.image3|as_crispy_field  }}
+        <br><br>
         <button type="submit">Создать</button>
     </form>
 {%endblock%}
