@@ -11,9 +11,9 @@ from django.http import HttpResponseRedirect
 
 def product_list(request, product_type=None):
     if product_type==None:
-        object_list = Product.objects.all().order_by('-price')
+        object_list = Product.objects.all().order_by('-likes_number')
     else:
-        object_list = Product.objects.filter(product_type=product_type).order_by('-price')
+        object_list = Product.objects.filter(product_type=product_type).order_by('-likes_number')
     paginator = Paginator(object_list, 6)
     page = request.GET.get('page')
     try:
@@ -54,7 +54,14 @@ def product_detail(request, pk):
 @login_required
 def custom_purchase_detail(request, pk):
     custom_purchase = get_object_or_404(CustomPurchase, pk=pk)
-    return render(request, 'custom_purchase_detail.html', {'custom_purchase': custom_purchase})
+    images = [custom_purchase.image1, custom_purchase.image2, custom_purchase.image3]
+
+    while 'no-image.jpg' in images:
+        images.remove('no-image.jpg')
+    if bool(images)==False:
+        images = [custom_purchase.image1,]
+    return render(request, 'custom_purchase_detail.html', {'custom_purchase': custom_purchase,
+                                                            'images':images})
 
 @login_required
 def cart_list(request):
@@ -62,12 +69,14 @@ def cart_list(request):
     total = 0
     custom = CustomPurchase.objects.filter(customer=request.user)
     is_empty = bool(carts)
+    is_anycustom = bool(custom)
     for i in carts:
         total += i.cost
     return render(request, 'cart.html', {'carts': carts,
                                         'total':total,
                                         'is_empty':is_empty,
-                                        'custom':custom})
+                                        'custom':custom,
+                                        'is_anycustom':is_anycustom})
 
 def about(request):
     return render(request, 'index.html')
@@ -85,18 +94,28 @@ def custom_create(request):
     if request.method == 'POST':
         form = CustomPurchaseForm(request.POST or None, request.FILES or None)
         if form.is_valid():
-            # print("ldhkjdhjhsbdljhb,djfhb")
-            # cd = form.cleaned_data
-            # print(cd)
             new_cart = form.save(commit=False)
             print(new_cart)
             new_cart.customer = request.user
             new_cart.save()
             messages.success(request, 'It has successfully added')
-            return redirect('shop:product_list')
+            return redirect('shop:custom_detail', new_cart.pk)
     else:
         form = CustomPurchaseForm(data=request.GET)
     return render(request, 'create_custom.html', {'form':form})
+
+@login_required
+def custom_edit(request, pk):
+    cp = get_object_or_404(CustomPurchase, pk=pk)
+    if request.method=='POST':
+        form = CustomPurchaseForm(request.POST, instance=cp)
+        if form.is_valid():
+            cp=form.save(commit=False)   
+            cp.save()
+            return redirect('shop:custom_detail', pk)
+    else:
+        form = CustomPurchaseForm(request.POST, instance=cp)
+    return render(request, 'edit_custom.html', {'form':form})
 
 @login_required
 def add_to_cart(request, pk):
@@ -109,12 +128,20 @@ def add_to_cart(request, pk):
             new_cart.customer = request.user
             new_cart.product = product
             new_cart.save()
-            messages.success(request, 'Added')
             return redirect('shop:product_list')
     else:
         form = CartCreationForm(data=request.GET)
     return render(request, 'add_to_cart.html', {'form':form})
 
+@login_required
+def delete_custom_purchase(request, pk):
+    purchase = CustomPurchase.objects.get(pk=pk)
+    if purchase.status=='awaiting':
+        purchase.delete()
+        return redirect('shop:cart_list')
+    return render(request, 'error_page.html')
+
+@login_required
 def delete_from_cart(request, pk):
     purchase = Purchase.objects.get(pk=pk)
     if purchase.status=='awaiting':
@@ -146,6 +173,13 @@ def like(request, pk):
 @login_required
 def accept(request, pk):
     purchase = get_object_or_404(Purchase, pk=pk)
+    purchase.status='confirmed'
+    purchase.save()
+    return redirect('shop:cart_list')
+
+@login_required
+def custom_accept(request, pk):
+    purchase = get_object_or_404(CustomPurchase, pk=pk)
     purchase.status='confirmed'
     purchase.save()
     return redirect('shop:cart_list')

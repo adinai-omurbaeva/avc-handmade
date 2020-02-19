@@ -1,14 +1,12 @@
 {%extends 'base.html'%}
 {%block section%}
-<section id="secondgallery" class="tm-section">
+
     <div class="filter">
-        <h3><a  href='{% url "shop:product_list" %}'>Все</a></h3>
-        <h3><a  href='{% url "shop:product_type" "earring" %}'>Серьги</a></h3>
-        <h3><a href='{% url "shop:product_type" "necklace" %}'>Кулоны</a></h3>
-        <h3><a href='{% url "shop:product_type" "badge" %}'>Значки</a></h3>
+        <h3><a  href='{% url "shop:product_list" %}' style="color:#658E08;">Все</a></h3>
+        <h3><a  href='{% url "shop:product_type" "earring" %}' style="color:#658E08;">Серьги</a></h3>
+        <h3><a href='{% url "shop:product_type" "necklace" %}' style="color:#658E08;">Кулоны</a></h3>
+        <h3><a href='{% url "shop:product_type" "badge" %}' style="color:#658E08;">Значки</a></h3>
     </div>
-    
-</section>
     <section id="secondgallery" class="tm-section">
         <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30"></h2></header>
         <div class="secondgallery-list tm-gallery-container tm-gallery-1">
@@ -16,8 +14,8 @@
         
         <div class="list-item tm-img-container-1" >
             <a href="{% url 'shop:product_detail' product.pk%}">
-            <img src='../../{{product.image}}' class="list-item-img img-fluid tm-img-tn" width="250" height="200"></a>
-            <p> <a href="{%url 'shop:like' product.pk %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{product.likes_number}}
+            <img src='../../media/{{product.image}}' class="list-item-img img-fluid tm-img-tn" width="250" height="200"></a>
+            <p> <a href="{%url 'shop:like' product.pk %}" style="color:#658E08;"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{product.likes_number}}
           
         </div>
        

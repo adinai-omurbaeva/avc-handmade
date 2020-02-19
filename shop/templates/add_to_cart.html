@@ -4,6 +4,6 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class='button' type="submit">Добавить в корзину</button>
+        <input type="submit" value="Добавить в корзину">
     </form>
 {%endblock%}

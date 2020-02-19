@@ -1,24 +1,31 @@
 {%extends 'base.html'%}
 {%block content%}
 <h2 class='history' >
-    <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link">Создать свой</a>  |                         
-    <a href="{% url 'shop:done_purchases' %}">История заказов</a>
+    <a href="{% url 'shop:custom_create' %}" class="tm-nav-item-link" style="color:#658E08;">Создать свой заказ</a>  |                         
+    <a href="{% url 'shop:done_purchases' %}" style="color:#658E08;">История заказов</a>
 </h2>
 <br><br><br><br>
     {%for purchase in carts%}
-        <h2><a href="{% url 'shop:product_detail' purchase.product.pk%}">{{ purchase.product }} </a> {{purchase.count}} шт.</h2>
-        <img src='../../{{purchase.product.image}}' class="list-item-img" width="250" height="200"></a>
+        <h2><a href="{% url 'shop:product_detail' purchase.product.pk%}" style="color:#658E08;">{{ purchase.product }} </a> {{purchase.count}} шт.</h2>
+        <img src='../../media/{{purchase.product.image}}' class="list-item-img" width="250" height="200"></a>
         <p>{{purchase.cost}} сом</p>
-        <p>Статус заказа: {{ purchase.get_status_display }}</p>
-        <p><a href="{% url 'shop:accept' purchase.pk%}">Подтвердить</a><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p>
+        <p>Статус заказа: <b>{{ purchase.get_status_display }}</b></p>
+        <p>
+            <a href="{% url 'shop:accept' purchase.pk%}"><input type="button" value="Подтвердить"></a>
+            <a href="{% url 'shop:delete_from_cart' purchase.pk%}"><input type="button" value="Удалить"></a>
+        </p>
         <br><br>
     {%endfor%}
-    <h2>Специальные заказы</h2>
+    {% if is_anycustom %}
+        <h2>Специальные заказы</h2>
+    {%endif%}
     {%for purchase in custom%}
-        <a href="{% url 'shop:custom_detail' purchase.pk%}"><img src='../../media/{{purchase.image1}}' class="list-item-img" width="250" height="200"></a>
+        <a href="{% url 'shop:custom_detail' purchase.pk%}"><img src='../../media/{{purchase.image1}}' class="list-item-img" width="180" height="180"></a>
         <p>{{purchase.description}}</p>
         <p>Размер: {{ purchase.size}} см</p>
-        <!-- <p><a href="{% url 'shop:delete_from_cart' purchase.pk%}">Удалить</a></p> -->
+        <p>Статус заказа: <b>{{ purchase.get_status_display }}</b></p>
+        <a href="{% url 'shop:custom_delete' purchase.pk%}"><input type="button" value="Удалить"></a>
+        <a href="{% url 'shop:custom_accept' purchase.pk%}"><input type="button" value="Подтвердить"></a>
         <br><br>
     {%endfor%}
     {% if is_empty %}

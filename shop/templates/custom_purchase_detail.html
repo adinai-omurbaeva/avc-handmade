@@ -1,8 +1,11 @@
 {%extends 'base.html'%}
 {%block section%}
-
-<img src='../../media/{{custom_purchase.image1}}' width="200" height="140"></a>
-    <p>{{custom_purchase.description}}</p>
-    <p>{{custom_purchase.size}} сом</p> 
-    
+{% for img in images %}
+<img src='../../media/{{img}}' width="200"></a>
+{%endfor%}
+    <p>Описание: {{custom_purchase.description}}</p>
+    <p>Размер: {{custom_purchase.size}} см</p> 
+    <p>Цена: договорная</p>
+    <a href="{% url 'shop:custom_accept' custom_purchase.pk%}"><input type="button" value="Подтвердить"></a>
+    <a href="{% url 'shop:custom_delete' custom_purchase.pk%}"><input type="button" value="Удалить"></a>
 {%endblock%}

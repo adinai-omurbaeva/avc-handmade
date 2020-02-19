@@ -1,10 +1,6 @@
 {%extends 'base.html'%}
 {% load crispy_forms_tags %}
 {%block content%}
-  <h2>Создать свой заказ</h2>
-  <p style="color: #AF6B6B;">Здесь вы можете заказать украшение или фигурку, которых нет в нашем каталоге. 
-    Просто заполните поля снизу.
-  </p>
     <form method="POST" enctype="multipart/form-data">
  
         {{form.description|as_crispy_field }}   
@@ -19,4 +15,4 @@
         <br><br>
         <button type="submit">Создать</button>
     </form>
-{%endblock%}
+{%endblock%} 

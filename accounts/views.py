@@ -13,12 +13,10 @@ class SignUpView(generic.CreateView):
 @login_required
 def edit_user(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
-    password = user.password
     if request.method=='POST':
         form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             user=form.save(commit=False)
-            user.password = password
             user.save()
             return redirect('accounts:edit_user', pk)
     else:

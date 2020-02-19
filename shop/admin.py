@@ -21,7 +21,11 @@ class PurchaseAdmin(admin.ModelAdmin):
     list_filter = ('customer', 'status')
     ordering = ('-status', 'customer')
 
-admin.site.register(CustomPurchase)
+@admin.register(CustomPurchase)
+class CustomPurchaseAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'size', 'status')
+    list_filter = ('customer', 'status')
+    ordering = ('-status', 'customer')
 # admin.site.register(Like)
 
 

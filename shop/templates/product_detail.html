@@ -2,15 +2,15 @@
 {%block section%}
 
 <h1>{{ product.name }}</h1>
-<img src='../../{{product.image}}' width="200" height="140"></a>
+<img src='../../media/{{product.image}}' width="200" height="140"></a>
     <p>{{product.description}}</p>
     <p>{{product.price}} сом</p> 
     
-    <a href="{%url 'shop:like' product.pk %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{product.likes_number}}</p>
+    <a style="color:#658E08;" href="{%url 'shop:like' product.pk %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {{product.likes_number}}</p>
     <!-- <a href="{%url 'shop:like' product.pk  %}"><p><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> </p> -->
   
 <section class="tm-section">
-    <button><a href="{% url 'shop:add_to_cart' product.pk%}">Добавить в корзину</a></button>
+    <a href="{% url 'shop:add_to_cart' product.pk%}"><input type="button" value="Добавить в корзину"></a>
 </section>
 
     <section class="tm-section">
